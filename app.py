@@ -24,9 +24,27 @@ def actualStuff():
     print(search)
     response = co.generate(
     model='medium',
-    prompt=f'Given a phrase, this program will generate a pick-up line complimenting a girl that uses that phrase.\n\nPhrase: Spotify\nPick-up Line: I ought to complain to Spotify for you not being named this week’s hottest single.\n--\nPhrase: Crime\nPick-up Line: If being sexy was a crime, you’d be guilty as charged.\n--\nPhrase: Wine\nPick-up Line: You’re like a fine wine. The more of you I drink in, the better I feel.\n--\nPhrase: Artist\nPick-up Line: I was wondering if you’re an artist because you were so good at drawing me in.\n--\nPhrase: {search}\nPick-up Line:',
-    max_tokens=38,
-    temperature=0.6,
+    prompt=f"""Given a phrase, this program will generate a pick-up line complimenting a girl that uses that phrase.
+                \n
+                \nPhrase: Spotify
+                \nPick-up Line: I ought to complain to Spotify for you not being named this week’s hottest single.
+                \n--
+                \nPhrase: Crime
+                \nPick-up Line: If being sexy was a crime, you’d be guilty as charged.
+                \n--
+                \nPhrase: Wine
+                \nPick-up Line: You’re like a fine wine. The more of you I drink in, the better I feel.
+                \n--
+                \nPhrase: Artist
+                \nPick-up Line: I was wondering if you’re an artist because you were so good at drawing me in.
+                \n--
+                \nPhrase: Time Travel
+                \nPick-up Line: Are you a time traveler? Because I absolutely see you in my future.
+                \n--
+                \nPhrase: {search}
+                \nPick-up Line:""",
+    max_tokens=20,
+    temperature=0.9,
     k=0,
     p=0.75,
     frequency_penalty=0,
