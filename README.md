@@ -10,4 +10,4 @@ This program is the rizz bot we were discussing earlier. This is just a temporar
 
 To actually use it, try adding a search prompt to the URL, like this:
 
-/api?search=Music
+> /api?search=Music
