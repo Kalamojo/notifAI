@@ -23,10 +23,10 @@ def actualStuff():
     search = query_parameters.get('search')
     print(search)
     response = co.generate(
-    model='xlarge',
+    model='medium',
     prompt=f'Given a phrase, this program will generate a pick-up line complimenting a girl that uses that phrase.\n\nPhrase: Spotify\nPick-up Line: I ought to complain to Spotify for you not being named this week’s hottest single.\n--\nPhrase: Crime\nPick-up Line: If being sexy was a crime, you’d be guilty as charged.\n--\nPhrase: Wine\nPick-up Line: You’re like a fine wine. The more of you I drink in, the better I feel.\n--\nPhrase: Artist\nPick-up Line: I was wondering if you’re an artist because you were so good at drawing me in.\n--\nPhrase: {search}\nPick-up Line:',
     max_tokens=38,
-    temperature=0.7,
+    temperature=0.6,
     k=0,
     p=0.75,
     frequency_penalty=0,
@@ -34,7 +34,7 @@ def actualStuff():
     stop_sequences=[],
     return_likelihoods='NONE')
     print('Prediction: {}'.format(response.generations[0].text))
-    return jsonify(response.generations[0].text)
+    return jsonify(response.generations[0].text.split("\n")[0])
 
 if __name__ == "__main__":
 	app.run(debug=True)
