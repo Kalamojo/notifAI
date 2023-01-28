@@ -1,1 +1,1 @@
-"# Study-Bot" 
+# Study-Bot
