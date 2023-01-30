@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect} from 'react';
 import { Camera, useCameraDevices } from 'react-native-vision-camera';
-import { StyleSheet, Text, View, Alert } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
+import { contentSpacing, maxZoomFactor, safeAreaPadding } from '../components/constants';
 import { useIsAppForeground } from '../components/useIsAppForeground'
 import { useIsFocused } from '@react-navigation/native';
 
@@ -28,8 +29,7 @@ export default function Home() {
   if (device == null || cameraAvailable == false) return <View style={styles.container}>
     <Text>Notifai requires camera functionality to work. Enable it in settings.</Text>
   </View>
-
-  return (
+  else return (
     <View style={styles.container}>
     <Text>Notifai running</Text>
     <Camera
@@ -38,6 +38,8 @@ export default function Home() {
       isActive={isAppForeground && isFocused}
     />
     
+    <View style={styles.rightButtonRow}>
+      </View>
     </View>
   );
 }
@@ -46,7 +48,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+  },
+  rightButtonRow: {
+    position: 'absolute',
+    right: safeAreaPadding.paddingRight,
+    top: safeAreaPadding.paddingTop,
   },
 });
