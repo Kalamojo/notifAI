@@ -1,6 +1,8 @@
 import { useRef, useState, useEffect} from 'react';
 import { Camera, useCameraDevices } from 'react-native-vision-camera';
 import { StyleSheet, Text, View, Alert } from 'react-native';
+import { useIsAppForeground } from '../components/useIsAppForeground'
+import { useIsFocused } from '@react-navigation/native';
 
 export default function Home() {  
   const [cameraAvailable, setCameraAvailable] = useState(null);
@@ -20,6 +22,8 @@ export default function Home() {
   
   const devices = useCameraDevices()
   const device = devices.back
+  const isAppForeground = useIsAppForeground()
+  const isFocused = useIsFocused()
 
   if (device == null || cameraAvailable == false) return <View style={styles.container}>
     <Text>Notifai requires camera functionality to work. Enable it in settings.</Text>
@@ -31,8 +35,9 @@ export default function Home() {
     <Camera
       style={StyleSheet.absoluteFill}
       device={device}
-      isActive={true}
+      isActive={isAppForeground && isFocused}
     />
+    
     </View>
   );
 }
