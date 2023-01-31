@@ -11,7 +11,6 @@ export default function Home() {
   const [cameraAvailable, setCameraAvailable] = useState(null);
   const [flash, setFlash] = useState<'off' | 'on'>('off');
 
-
   useEffect(() => {
     const getPermissions = async () => {
         const cameraPermission: String = await Camera.getCameraPermissionStatus()
@@ -35,15 +34,15 @@ export default function Home() {
     ]);
   }
 
-  
   const devices = useCameraDevices()
   const device = devices.back
   const supportsFlash = device?.hasFlash ?? false;
   const isAppForeground = useIsAppForeground()
   const isFocused = useIsFocused()
 
-  if (device == null || cameraAvailable == false) return <View style={styles.container}>
-    <Text>Notifai requires camera functionality to work. Enable it in settings.</Text>
+  if (device == null || cameraAvailable == false) return <View style={styles.errorContainer}>
+      <Image style={styles.errorLogo} source={require('../../assets/splash.png')}/>
+    <Text style={{flex: 1, textAlign: "center", padding: 50}}>Notifai requires camera functionality to work. Enable it in settings.</Text>
   </View>
   else return (
     <View style={styles.container}>      
@@ -73,6 +72,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+  },
   captureButton: {
     width: 80,
     height: 80,
@@ -90,6 +95,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignSelf: 'center',
     top: safeAreaPadding.paddingTop - 20,
+  },
+  errorLogo: {
+    width: 400,
+    height: 400,
+    position: 'absolute',
+    alignSelf: 'center',
   },
   button: {
     marginBottom: contentSpacing,
