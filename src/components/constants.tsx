@@ -15,9 +15,6 @@ export const safeAreaPadding = {
   paddingBottom: safeBottom + contentSpacing,
 };
 
-// The maximum zoom _factor_ you should be able to zoom in
-export const maxZoomFactor = 20;
-
 export const screenWidth = Dimensions.get('window').width;
 export const screenHeight = Platform.select<number>({
   android: Dimensions.get('screen').height - StaticSafeAreaInsets.safeAreaInsetsBottom,
