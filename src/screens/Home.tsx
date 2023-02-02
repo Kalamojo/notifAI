@@ -1,13 +1,13 @@
 import { useState, useEffect, useCallback} from 'react';
 import { Camera, useCameraDevices } from 'react-native-vision-camera';
-import { StyleSheet, Image, Text, View, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Image, Text, View, TouchableOpacity, Alert, Button } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import { contentSpacing, safeAreaPadding } from '../components/constants';
 import { useIsAppForeground } from '../components/useIsAppForeground'
 import CaptureButton from '../components/captureButton';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 
-export default function Home() {  
+export default function Home({ navigation }) {  
   const [cameraAvailable, setCameraAvailable] = useState(null);
   const [flash, setFlash] = useState<'off' | 'on'>('off');
 
@@ -29,7 +29,7 @@ export default function Home() {
   }, []);
 
   const onCapture = () => {
-    Alert.alert('Notifai', 'Snapshot has been taken', [
+    Alert.alert('Notifai', 'Sheeesh?', [
       {text: 'OK'},
     ]);
   }
@@ -63,6 +63,11 @@ export default function Home() {
             </TouchableOpacity>
           )}
       </View>
+
+      <Button
+        title="Go to Details"
+        onPress={() => navigation.navigate('Basic')}
+      />
     </View>
   );
 }
