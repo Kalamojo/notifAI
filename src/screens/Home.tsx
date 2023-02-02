@@ -64,10 +64,11 @@ export default function Home({ navigation }) {
           )}
       </View>
 
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate('Basic')}
-      />
+      <View style={styles.leftButtonRow}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('InputScreen')} activeOpacity={0.4}>
+          <IonIcon name="copy" color="white" size={24} />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -112,13 +113,18 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: 'rgba(140, 140, 140, 0.3)',
+    backgroundColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',
   },
   rightButtonRow: {
     position: 'absolute',
     right: safeAreaPadding.paddingRight,
+    top: safeAreaPadding.paddingTop,
+  },
+  leftButtonRow: {
+    position: 'absolute',
+    left: safeAreaPadding.paddingLeft,
     top: safeAreaPadding.paddingTop,
   },
 });
