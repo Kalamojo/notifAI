@@ -6,7 +6,6 @@ import { contentSpacing, safeAreaPadding } from '../components/constants';
 import { useIsAppForeground } from '../components/useIsAppForeground'
 import CaptureButton from '../components/captureButton';
 import IonIcon from 'react-native-vector-icons/Ionicons';
-import RNFS from 'react-native-fs';
 
 export default function Home({ navigation }) {  
   const [cameraAvailable, setCameraAvailable] = useState(null);
@@ -41,11 +40,7 @@ export default function Home({ navigation }) {
     const photo = await camera.current.takePhoto({
       flash: 'off'
     });
-    {/*console.log(photo);*/}
-    let my_path = photo.path;
-    RNFS.readFile(my_path, 'base64').then(res =>{
-      console.log(res);
-    });
+    console.log(photo);
     Alert.alert('Notifai', 'Sheeesh?', [
       {text: 'OK'},
     ]);

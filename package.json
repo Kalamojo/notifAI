@@ -24,7 +24,7 @@
     "react-native-static-safe-area-insets": "^2.2.0",
     "react-native-vector-icons": "^9.2.0",
     "react-native-vision-camera": "^2.15.2",
-    "react-native-fs": "^2.0.1",
+    "react-native-bouncing-preloader": "^1.0.1",
     "typescript": "^4.6.3"
   },
   "devDependencies": {
