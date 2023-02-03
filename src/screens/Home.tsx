@@ -63,7 +63,7 @@ export default function Home({ navigation }) {
       });
 
       const response = await fetch(
-        "https://vision.googleapis.com/v1/images:annotate?key=AIzaSyB0E4ooUq6hOTaCDz5fSCTrZ2JH3wxX0oQ",
+        "https://vision.googleapis.com/v1/images:annotate?key=someAPIKey",
         {
           headers: {
             Accept: "application/json",
