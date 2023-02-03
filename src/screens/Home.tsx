@@ -3,13 +3,17 @@ import { Camera, useCameraDevices } from 'react-native-vision-camera';
 import { StyleSheet, Image, Text, View, TouchableOpacity, Alert, Button } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import { contentSpacing, safeAreaPadding } from '../components/constants';
-import { useIsAppForeground } from '../components/useIsAppForeground'
+import { useIsAppForeground } from '../components/useIsAppForeground';
+import Spinner from 'react-native-loading-spinner-overlay';
 import CaptureButton from '../components/captureButton';
 import IonIcon from 'react-native-vector-icons/Ionicons';
+import RNFS from 'react-native-fs';
 
 export default function Home({ navigation }) {  
   const [cameraAvailable, setCameraAvailable] = useState(null);
   const [flash, setFlash] = useState<'off' | 'on'>('off');
+  const [spinner, setSpinner] = useState(false);
+  const [base64, setBase64] = useState(null);
 
   useEffect(() => {
     const getPermissions = async () => {
@@ -37,16 +41,51 @@ export default function Home({ navigation }) {
   const camera = useRef<Camera>(null);
 
   const onCapture = async () => {
+    setSpinner(true)
     const photo = await camera.current.takePhoto({
-      flash: 'off'
+      flash: flash
     });
-    console.log(photo);
-    Alert.alert('Notifai', 'Sheeesh?', [
-      {text: 'OK'},
-    ]);
-  }
+    RNFS.readFile('file://' + photo.path, 'base64').then(res =>{
+      setBase64(res);
+    });
+    try {
+      const body = JSON.stringify({
+        requests: [
+          {
+            features: [
+              { type: "TEXT_DETECTION", maxResults: 1 },
+            ],
+            image: {
+              content: base64
+            }
+          }
+        ]
+      });
 
-  
+      const response = await fetch(
+        "https://vision.googleapis.com/v1/images:annotate?key=AIzaSyB0E4ooUq6hOTaCDz5fSCTrZ2JH3wxX0oQ",
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          method: "POST",
+          body: body
+        }
+      );
+
+      const responseJson = await response.json()
+      const responseText = responseJson.responses[0].fullTextAnnotation.text
+      setSpinner(false)
+      navigation.navigate("InputScreen", {text: responseText})
+
+    } catch(err) {
+      setSpinner(false)
+      Alert.alert('Notifai', 'An error has occured. Please try again.', [
+        {text: 'OK'},
+      ]);
+    }
+  }
 
   if (device == null || cameraAvailable == false) return <View style={styles.errorContainer}>
       <Image style={styles.errorLogo} source={require('../../assets/splash.png')}/>
@@ -54,6 +93,12 @@ export default function Home({ navigation }) {
   </View>
   else return (
     <View style={styles.container}>      
+        <Spinner
+          visible={spinner}
+          textContent={'Loading...'}
+          textStyle={styles.spinnerTextStyle}
+        />
+
       <Camera
         ref={camera}
         style={StyleSheet.absoluteFill}
@@ -84,6 +129,9 @@ export default function Home({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  spinnerTextStyle: {
+    color: '#FFF'
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -137,4 +185,4 @@ const styles = StyleSheet.create({
     left: safeAreaPadding.paddingLeft,
     top: safeAreaPadding.paddingTop,
   },
-});
+})

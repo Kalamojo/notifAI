@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { View, StyleSheet, TextInput, Image } from 'react-native';
 import { contentSpacing, safeAreaPadding } from '../components/constants';
 
-export default function InputScreen({ navigation }) {
+export default function InputScreen({ route, navigation }) {
   async function getSummarizeApi(text) {
       try {
         navigation.navigate('Loading');
@@ -18,9 +18,9 @@ export default function InputScreen({ navigation }) {
         console.error(error);
       }
   }
-  
+      
   const [value, onChangeText] = useState('Input text to API');
-    
+
   return (
       <View style={styles.container}>
       <Image style={styles.logo} source={require('../../assets/logoblack.png')}/>
