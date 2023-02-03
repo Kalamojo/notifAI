@@ -75,7 +75,8 @@ export default function Home({ navigation }) {
       );
 
       const responseJson = await response.json()
-      const responseText = responseJson.responses[0].fullTextAnnotation.text
+      let responseText = responseJson.responses[0].fullTextAnnotation.text
+      responseText = responseText.replace('\n', ' ');
       setSpinner(false)
       navigation.navigate("InputScreen", {text: responseText})
 
