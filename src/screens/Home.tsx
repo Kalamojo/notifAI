@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback} from 'react';
+import { useState, useEffect, useCallback, useRef} from 'react';
 import { Camera, useCameraDevices } from 'react-native-vision-camera';
 import { StyleSheet, Image, Text, View, TouchableOpacity, Alert, Button } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
@@ -28,17 +28,25 @@ export default function Home({ navigation }) {
     setFlash((f) => (f === 'off' ? 'on' : 'off'));
   }, []);
 
-  const onCapture = () => {
-    Alert.alert('Notifai', 'Sheeesh?', [
-      {text: 'OK'},
-    ]);
-  }
-
   const devices = useCameraDevices()
   const device = devices.back
   const supportsFlash = device?.hasFlash ?? false;
   const isAppForeground = useIsAppForeground()
   const isFocused = useIsFocused()
+
+  const camera = useRef<Camera>(null);
+
+  const onCapture = async () => {
+    const photo = await camera.current.takePhoto({
+      flash: 'off'
+    });
+    console.log(photo);
+    Alert.alert('Notifai', 'Sheeesh?', [
+      {text: 'OK'},
+    ]);
+  }
+
+  
 
   if (device == null || cameraAvailable == false) return <View style={styles.errorContainer}>
       <Image style={styles.errorLogo} source={require('../../assets/splash.png')}/>
@@ -47,9 +55,11 @@ export default function Home({ navigation }) {
   else return (
     <View style={styles.container}>      
       <Camera
+        ref={camera}
         style={StyleSheet.absoluteFill}
         device={device}
         isActive={isAppForeground && isFocused}
+        photo={true}
       />
 
       <Image style={styles.logo} source={require('../../assets/logo.png')}/>
